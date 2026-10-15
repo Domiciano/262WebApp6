@@ -1,20 +1,33 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear usuario</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/auth.css}">
 </head>
-<body>
-<h1>Registrar usuario</h1>
+<body class="auth-page">
+<main class="auth-card">
+    <h1 class="auth-title">Crear usuario</h1>
+    <p class="auth-subtitle">Define el usuario y la contraseña de la nueva cuenta.</p>
 
-<form th:object="${user}"
-      method="post"
-      th:action="@{/user}">
-    <input type="text" placeholder="Usuario" th:field="*{username}" required>
-    <input type="password" placeholder="Contraseña" th:field="*{password}" required>
-    <button>Registrar</button>
-</form>
-<h5 th:text="${message}"></h5>
+    <form class="auth-form" th:object="${user}" method="post" th:action="@{/user}">
+        <label class="field">
+            <span class="field-label">Usuario</span>
+            <input class="field-input" type="text" placeholder="tu.usuario" th:field="*{username}"
+                   autocomplete="off" required autofocus>
+        </label>
+        <label class="field">
+            <span class="field-label">Contraseña</span>
+            <input class="field-input" type="password" placeholder="••••••••" th:field="*{password}"
+                   autocomplete="new-password" required>
+        </label>
+        <button class="btn-primary" type="submit">Crear usuario</button>
+    </form>
 
+    <p class="auth-footer">
+        <a th:href="@{/user}">Volver a la lista de usuarios</a>
+    </p>
+</main>
 </body>
 </html>

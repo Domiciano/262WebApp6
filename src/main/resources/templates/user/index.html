@@ -1,21 +1,55 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Usuarios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar usuarios</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/users.css}">
 </head>
-<body>
-<h1>Usuarios</h1>
+<body class="users-page">
+<main class="users-card">
+    <header class="users-header">
+        <div>
+            <h1 class="users-title">Usuarios</h1>
+            <p class="users-meta" th:text="${#lists.size(users)} + ' usuarios registrados'">0 usuarios registrados</p>
+        </div>
+        <div class="header-actions">
+            <a class="btn btn-outline" th:href="@{/role}">Editar roles</a>
+            <a class="btn btn-primary" th:href="@{/user/new}">Crear usuario</a>
+        </div>
+    </header>
 
-<ul>
-    <li th:each="user : ${users}">
-        <span th:text="${user.username}"></span>
-        <form method="post" th:action="@{/user/{id}/delete(id=${user.id})}">
-            <button>Eliminar</button>
-        </form>
-    </li>
-</ul>
+    <div class="alert alert-success" th:if="${message}" th:text="${message}"></div>
 
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Usuario</th>
+            <th class="text-end">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td class="text-muted" th:text="${user.id}">1</td>
+            <td>
+                <a class="user-link" th:href="@{/user/{id}/roles(id=${user.id})}" th:text="${user.username}">usuario</a>
+            </td>
+            <td class="text-end">
+                <form method="post" th:action="@{/user/{id}/delete(id=${user.id})}">
+                    <button class="btn btn-danger" type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(users)}">
+            <td class="text-muted text-center" colspan="3">No hay usuarios registrados.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <footer class="users-footer">
+        <a class="btn btn-outline" th:href="@{/profile/me}">Volver al perfil</a>
+    </footer>
+</main>
 </body>
 </html>

@@ -16,4 +16,8 @@ public interface UserRoleService {
 
     void deleteById(UserRoleId id);
 
+    List<Integer> findRoleIdsByUserId(Integer userId);
+
+    void assignRoles(Integer userId, List<Integer> roleIds);
+
 }

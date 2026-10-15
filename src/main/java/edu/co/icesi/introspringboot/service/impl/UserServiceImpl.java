@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('CREATE_USER')")
     public User save(User user) {
         String hashedPass = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPass);

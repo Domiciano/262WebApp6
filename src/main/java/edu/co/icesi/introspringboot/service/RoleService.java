@@ -15,4 +15,8 @@ public interface RoleService {
 
     void deleteById(Integer id);
 
+    List<Integer> findPermissionIdsByRoleId(Integer roleId);
+
+    void updatePermissions(Integer roleId, List<Integer> permissionIds);
+
 }

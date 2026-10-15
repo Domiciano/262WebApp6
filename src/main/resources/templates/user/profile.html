@@ -1,15 +1,38 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi perfil</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/profile.css}">
 </head>
-<body>
-<h2 th:text="${principal}"></h2>
+<body class="profile-page">
+<main class="profile-card">
+    <header class="profile-header">
+        <div class="avatar" th:text="${#strings.substring(principal, 0, 1)}">U</div>
+        <div>
+            <h1 class="profile-name" th:text="${principal}">usuario</h1>
+            <p class="profile-meta">Sesión iniciada</p>
+        </div>
+        <form class="logout-form" th:action="@{/logout}" method="post">
+            <button class="btn-outline" type="submit">Cerrar sesión</button>
+        </form>
+    </header>
 
-<ol>
-    <li th:each="authority : ${authorities}" th:text="${authority.authority}"></li>
-</ol>
+    <section class="profile-body">
+        <h2 class="section-title">Authorities</h2>
+        <ul class="authority-list" th:unless="${#lists.isEmpty(authorities)}">
+            <li class="badge"
+                th:each="authority : ${authorities}"
+                th:classappend="${#strings.startsWith(authority.authority, 'ROLE_')} ? 'badge-role'"
+                th:text="${authority.authority}">PERMISSION</li>
+        </ul>
+        <p class="empty" th:if="${#lists.isEmpty(authorities)}">Este usuario no tiene authorities asignadas.</p>
+    </section>
 
+    <footer class="profile-footer" th:if="${isAdmin}">
+        <a class="btn-primary" th:href="@{/user}">Administrar usuarios</a>
+    </footer>
+</main>
 </body>
 </html>

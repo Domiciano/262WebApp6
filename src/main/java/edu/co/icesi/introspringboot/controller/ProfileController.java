@@ -22,6 +22,9 @@ public class ProfileController {
         model.addAttribute(
                 "authorities",
                 userDetails.getAuthorities());
+        boolean isAdmin = userDetails.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", isAdmin);
         return "user/profile";
     }
 }

@@ -1,25 +1,33 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/auth.css}">
 </head>
-<body>
-<form th:action="@{/user/login}" method="post">
-    <input type="text" name="username">
-    <input type="password" name="password">
-    <button type="submit">Ingresar</button>
-</form>
+<body class="auth-page">
+<main class="auth-card">
+    <h1 class="auth-title">Bienvenido</h1>
+    <p class="auth-subtitle">Ingresa con tu usuario y contraseña.</p>
 
-<div th:if="${param.error}">
-    <p style="color: red;">Usuario o contraseña incorrectos</p>
-</div>
+    <div class="alert alert-error" th:if="${param.error}">Usuario o contraseña incorrectos</div>
+    <div class="alert alert-success" th:if="${param.logout}">Has cerrado sesión correctamente</div>
 
-<div th:if="${param.logout}">
-    <p style="color: green;">Has cerrado sesión correctamente</p>
-</div>
+    <form class="auth-form" th:action="@{/user/login}" method="post">
+        <label class="field">
+            <span class="field-label">Usuario</span>
+            <input class="field-input" type="text" name="username" placeholder="tu.usuario"
+                   autocomplete="username" required autofocus>
+        </label>
+        <label class="field">
+            <span class="field-label">Contraseña</span>
+            <input class="field-input" type="password" name="password" placeholder="••••••••"
+                   autocomplete="current-password" required>
+        </label>
+        <button class="btn-primary" type="submit">Ingresar</button>
+    </form>
+
+</main>
 </body>
 </html>

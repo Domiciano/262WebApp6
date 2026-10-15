@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roles</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/users.css}">
+</head>
+<body class="users-page">
+<main class="users-card narrow">
+    <header class="users-header">
+        <div>
+            <h1 class="users-title">Roles</h1>
+            <p class="users-meta">Elige un rol para editar sus permisos.</p>
+        </div>
+    </header>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Rol</th>
+            <th class="text-end">Permisos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="role : ${roles}">
+            <td>
+                <a class="user-link" th:href="@{/role/{id}/permissions(id=${role.id})}" th:text="${role.name}">ROLE_ADMIN</a>
+            </td>
+            <td class="text-end text-muted" th:text="${#lists.size(role.rolePermissions)}">0</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(roles)}">
+            <td class="text-muted text-center" colspan="2">No hay roles creados.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <footer class="users-footer">
+        <a class="btn btn-outline" th:href="@{/user}">Volver a usuarios</a>
+    </footer>
+</main>
+</body>
+</html>
