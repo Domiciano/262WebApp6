@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('DELETE_USER')")
     public void deleteById(Integer id) {
         userRepository.deleteById(id);
         userRoleRepository.deleteByUser_Id(id);

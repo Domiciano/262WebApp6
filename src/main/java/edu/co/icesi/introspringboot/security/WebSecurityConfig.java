@@ -3,8 +3,10 @@ package edu.co.icesi.introspringboot.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +26,26 @@ public class WebSecurityConfig {
     }
 
     @Bean
+    @Order(1)
+    public SecurityFilterChain restSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.securityMatcher("/api/**")
+                .authorizeHttpRequests(
+                        auth ->
+                                auth
+                                        .requestMatchers("/api/v1/health").permitAll()
+                                        .anyRequest().authenticated()
+                )
+                .sessionManagement(
+                        manager ->
+                                manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                ).csrf(
+                        csrf -> csrf.disable()
+                );
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(
