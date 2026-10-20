@@ -4,12 +4,12 @@ INSERT INTO professor (name) VALUES ('Maria Rodriguez');
 INSERT INTO professor (name) VALUES ('Marlon Gomez');
 
 -- Cursos
-INSERT INTO course (name, credits, professor_id) VALUES ('Introduccion a la Programacion', 4, 3);
-INSERT INTO course (name, credits, professor_id) VALUES ('Estructuras de Datos', 4, 1);
-INSERT INTO course (name, credits, professor_id) VALUES ('Anatomia Humana', 5, 3);
-INSERT INTO course (name, credits, professor_id) VALUES ('Fisiologia', 5, 2);
-INSERT INTO course (name, credits, professor_id) VALUES ('Derecho Penal', 3, 3);
-INSERT INTO course (name, credits, professor_id) VALUES ('Historia del Arte', 3, 3);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('59c98002-5ad7-4353-8d72-5b2822efa09f', 'Introduccion a la Programacion', 4, 3);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('1e2499b9-2200-4eb3-a58d-d73d39672f02', 'Estructuras de Datos', 4, 1);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('7c5c4df3-e9ca-4994-8bd8-e50a879b9a5a', 'Anatomia Humana', 5, 3);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('0e5bfa55-c5e1-4e64-8b71-1344f43c4eda', 'Fisiologia', 5, 2);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('b29cdbc0-6e1c-4940-b5c3-00daae454445', 'Derecho Penal', 3, 3);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('b9a92c06-a31d-446e-930e-de8e645a92da', 'Historia del Arte', 3, 3);
 
 -- Estudiantes
 INSERT INTO student (name, code, program) VALUES ('Laura Garcia', '2021102001', 'Ingenieria de Sistemas');
@@ -111,76 +111,76 @@ INSERT INTO professor (name) VALUES ('Miguel Torres');
 
 -- 47 Cursos adicionales (todos con nombre distinto entre si y respecto a los 6 de arriba)
 -- Juan Perez (Sistemas) — Introduccion a la Programacion y Estructuras de Datos ya existen (ids 1-2)
-INSERT INTO course (name, credits, professor_id) VALUES ('Algoritmos y Complejidad', 4, 1);
-INSERT INTO course (name, credits, professor_id) VALUES ('Base de Datos', 3, 1);
-INSERT INTO course (name, credits, professor_id) VALUES ('Redes de Computadores', 3, 1);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('0c63e84b-809f-4f0a-bc06-31e246798322', 'Algoritmos y Complejidad', 4, 1);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('ee827163-c109-43e7-9409-c6b026bad4d9', 'Base de Datos', 3, 1);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('33686842-624c-4703-8d7e-1561f5570c4f', 'Redes de Computadores', 3, 1);
 
 -- Maria Rodriguez (Medicina) — Anatomia Humana y Fisiologia ya existen (ids 3-4)
-INSERT INTO course (name, credits, professor_id) VALUES ('Bioquimica Medica', 4, 2);
-INSERT INTO course (name, credits, professor_id) VALUES ('Farmacologia', 4, 2);
-INSERT INTO course (name, credits, professor_id) VALUES ('Patologia General', 5, 2);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('617d8428-fdad-49f8-895d-05b35951df8f', 'Bioquimica Medica', 4, 2);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('f1b79911-1812-4f09-9b61-4d44166b1d55', 'Farmacologia', 4, 2);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('38710310-97bb-4fd9-9df9-0b146025bd87', 'Patologia General', 5, 2);
 
 -- Carlos Gomez (Derecho) — Derecho Penal ya existe (id 5)
-INSERT INTO course (name, credits, professor_id) VALUES ('Derecho Civil', 3, 3);
-INSERT INTO course (name, credits, professor_id) VALUES ('Derecho Constitucional', 3, 3);
-INSERT INTO course (name, credits, professor_id) VALUES ('Derecho Laboral', 3, 3);
-INSERT INTO course (name, credits, professor_id) VALUES ('Derecho Internacional', 2, 3);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('55b3db78-b1ea-4671-9a50-3ccce9571fe2', 'Derecho Civil', 3, 3);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('f79ec074-9d93-487a-80a1-d75931677cb0', 'Derecho Constitucional', 3, 3);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('043006ae-c6ed-4644-a3f5-6e8206f14fb7', 'Derecho Laboral', 3, 3);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('dbdb1ef3-0fae-4728-9ff9-bae5c254b33a', 'Derecho Internacional', 2, 3);
 
 -- Ana Martinez (Arquitectura)
-INSERT INTO course (name, credits, professor_id) VALUES ('Dibujo Tecnico', 2, 4);
-INSERT INTO course (name, credits, professor_id) VALUES ('Diseno Arquitectonico I', 4, 4);
-INSERT INTO course (name, credits, professor_id) VALUES ('Diseno Arquitectonico II', 4, 4);
-INSERT INTO course (name, credits, professor_id) VALUES ('Historia de la Arquitectura', 3, 4);
-INSERT INTO course (name, credits, professor_id) VALUES ('Materiales de Construccion', 3, 4);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('35d67e36-3160-4e9c-acdc-1a9d5893be12', 'Dibujo Tecnico', 2, 4);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('bb792650-6053-49cb-b7bb-627a977208b4', 'Diseno Arquitectonico I', 4, 4);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('1634853e-70d5-4a44-aa19-e57f78a06cde', 'Diseno Arquitectonico II', 4, 4);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('607c1d5c-98ad-4f25-8636-c56fd6adb33c', 'Historia de la Arquitectura', 3, 4);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('2485f1c5-ced8-41ef-aadb-e30fd7f2d095', 'Materiales de Construccion', 3, 4);
 
 -- Luis Hernandez (Historia y Arte) — 'Historia del Arte' ya existe (id 6), no se repite aqui
-INSERT INTO course (name, credits, professor_id) VALUES ('Historia Universal', 3, 5);
-INSERT INTO course (name, credits, professor_id) VALUES ('Historia de Colombia', 3, 5);
-INSERT INTO course (name, credits, professor_id) VALUES ('Filosofia Moderna', 2, 5);
-INSERT INTO course (name, credits, professor_id) VALUES ('Etica y Sociedad', 2, 5);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('04b3a02e-f3ce-4546-9ca4-0de09860367f', 'Historia Universal', 3, 5);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('1a1f6892-ddc7-4a7a-8bbb-8fc05d538291', 'Historia de Colombia', 3, 5);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('f9b7697d-66f2-4b57-ab2c-69f8cd95767e', 'Filosofia Moderna', 2, 5);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('0bfcd266-8a04-471a-bf85-74b8d09a7ae6', 'Etica y Sociedad', 2, 5);
 
 -- Pedro Sanchez (Matematicas)
-INSERT INTO course (name, credits, professor_id) VALUES ('Calculo Diferencial', 4, 6);
-INSERT INTO course (name, credits, professor_id) VALUES ('Calculo Integral', 4, 6);
-INSERT INTO course (name, credits, professor_id) VALUES ('Algebra Lineal', 4, 6);
-INSERT INTO course (name, credits, professor_id) VALUES ('Ecuaciones Diferenciales', 3, 6);
-INSERT INTO course (name, credits, professor_id) VALUES ('Estadistica y Probabilidad', 3, 6);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('c40349a6-5bae-4454-af04-b1d0f3837446', 'Calculo Diferencial', 4, 6);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('3be36aee-80de-4966-94cf-c3d0313ca7ab', 'Calculo Integral', 4, 6);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('b48693cf-011d-4b5c-9133-d17d30ffdab7', 'Algebra Lineal', 4, 6);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('69103939-3d20-4462-8aa2-925a455cc279', 'Ecuaciones Diferenciales', 3, 6);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('481cd79c-796f-4bdd-907d-6c5d1f420b08', 'Estadistica y Probabilidad', 3, 6);
 
 -- Rosa Moreno (Fisica)
-INSERT INTO course (name, credits, professor_id) VALUES ('Fisica Mecanica', 4, 7);
-INSERT INTO course (name, credits, professor_id) VALUES ('Fisica Electromagnetismo', 4, 7);
-INSERT INTO course (name, credits, professor_id) VALUES ('Fisica Moderna', 3, 7);
-INSERT INTO course (name, credits, professor_id) VALUES ('Laboratorio de Fisica I', 2, 7);
-INSERT INTO course (name, credits, professor_id) VALUES ('Laboratorio de Fisica II', 2, 7);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('a222250a-c557-4dc2-946f-ccaf7a238ee9', 'Fisica Mecanica', 4, 7);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('0db20d72-466b-418f-bcef-71fa76bd9016', 'Fisica Electromagnetismo', 4, 7);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('435eba6e-89b3-4746-9fd3-ba1b12527009', 'Fisica Moderna', 3, 7);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('3c7099d5-e77e-492d-af10-565c8c960eb9', 'Laboratorio de Fisica I', 2, 7);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('03249714-73ef-46f0-8b0d-701d2b7dfaa8', 'Laboratorio de Fisica II', 2, 7);
 
 -- Jorge Castillo (Quimica)
-INSERT INTO course (name, credits, professor_id) VALUES ('Quimica General', 4, 8);
-INSERT INTO course (name, credits, professor_id) VALUES ('Quimica Organica', 4, 8);
-INSERT INTO course (name, credits, professor_id) VALUES ('Quimica Analitica', 3, 8);
-INSERT INTO course (name, credits, professor_id) VALUES ('Laboratorio de Quimica', 2, 8);
-INSERT INTO course (name, credits, professor_id) VALUES ('Quimica Ambiental', 3, 8);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('f0907b55-3ff2-44c0-b744-b5c50233b4cc', 'Quimica General', 4, 8);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('09f3eb8f-b7c2-431c-920d-6ebe39602da7', 'Quimica Organica', 4, 8);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('15b8b483-42f3-42fe-9747-80f3ff338ed3', 'Quimica Analitica', 3, 8);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('b786ead4-7cbe-423b-ad33-b883a3b56636', 'Laboratorio de Quimica', 2, 8);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('56feb6b7-0556-4e3a-a38c-16ca33e8a8d0', 'Quimica Ambiental', 3, 8);
 
 -- Elena Vargas (Biologia)
-INSERT INTO course (name, credits, professor_id) VALUES ('Biologia Celular', 4, 9);
-INSERT INTO course (name, credits, professor_id) VALUES ('Genetica', 4, 9);
-INSERT INTO course (name, credits, professor_id) VALUES ('Microbiologia', 3, 9);
-INSERT INTO course (name, credits, professor_id) VALUES ('Ecologia', 3, 9);
-INSERT INTO course (name, credits, professor_id) VALUES ('Botanica', 3, 9);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('6abbadf2-7b92-42b3-a3bd-bf5d991c996c', 'Biologia Celular', 4, 9);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('6b248da3-4546-4149-a754-f745be6bd2ff', 'Genetica', 4, 9);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('7b67859f-2ad6-4b67-b1b0-f553fcabc489', 'Microbiologia', 3, 9);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('1f9ecd68-6135-42e2-95f0-316c81920272', 'Ecologia', 3, 9);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('9ffaf505-75e7-4730-8421-9f92f744595b', 'Botanica', 3, 9);
 
 -- Miguel Torres (Economia)
-INSERT INTO course (name, credits, professor_id) VALUES ('Microeconomia', 3, 10);
-INSERT INTO course (name, credits, professor_id) VALUES ('Macroeconomia', 3, 10);
-INSERT INTO course (name, credits, professor_id) VALUES ('Economia Internacional', 3, 10);
-INSERT INTO course (name, credits, professor_id) VALUES ('Finanzas Corporativas', 4, 10);
-INSERT INTO course (name, credits, professor_id) VALUES ('Contabilidad General', 3, 10);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('1e94452d-27a0-4e21-aa04-665da85a59e9', 'Microeconomia', 3, 10);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('22d63702-3af3-4bbe-8c26-34c0b3df4426', 'Macroeconomia', 3, 10);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('43f8defb-af2a-4b30-9670-da5431dda3e4', 'Economia Internacional', 3, 10);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('6cc4e778-5b5e-4fd4-bedd-a8e0b92e4ea3', 'Finanzas Corporativas', 4, 10);
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('0f0966d0-9ce2-417d-9a29-0cd0746a69db', 'Contabilidad General', 3, 10);
 
 -- ─── PROFESOR SIN CURSOS ASIGNADOS (edge case: JOIN vacio / lista vacia) ─────
 INSERT INTO professor (name) VALUES ('Diana Ospina'); -- id 11
 
 -- ─── CURSOS CON CREDITOS LIMITE (para Between/GreaterThan/LessThan) ─────────
-INSERT INTO course (name, credits, professor_id) VALUES ('Ingles Tecnico', 2, 4);                -- id 51 (Ana Martinez), electiva abierta a varios programas
-INSERT INTO course (name, credits, professor_id) VALUES ('Seminario de Investigacion', 1, 1);    -- id 52
-INSERT INTO course (name, credits, professor_id) VALUES ('Trabajo de Grado', 6, 2);              -- id 53
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('26203808-2205-4aa8-8a2c-63e2a655af45', 'Ingles Tecnico', 2, 4);                -- id 51 (Ana Martinez), electiva abierta a varios programas
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('47f0dab4-36c3-4a5b-8beb-79a71df1f652', 'Seminario de Investigacion', 1, 1);    -- id 52
+INSERT INTO course (public_id, name, credits, professor_id) VALUES ('ae8eeb6b-b38a-4cb8-9b30-8fa07e2f949e', 'Trabajo de Grado', 6, 2);              -- id 53
 
 -- ─── ESTUDIANTES ADICIONALES ────────────────────────────────────────────────
 INSERT INTO student (name, code, program) VALUES ('Mariana Perez', '2022102006', 'Ingenieria de Sistemas');     -- id 6, sin inscripciones (edge case)

@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -37,6 +39,7 @@ public class CourseServiceIntegrationTest {
         course.setCredits(3);
         course.setName("Test Course");
         course.setProfessor(professor);
+        course.setPublicId(UUID.randomUUID().toString());
         courseRepository.save(course);
     }
 

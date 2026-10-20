@@ -18,6 +18,9 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "public_id", unique = true, nullable = false, updatable = false, length = 36)
+    private String publicId;
+
     @Column(unique = true)
     private String name;
 

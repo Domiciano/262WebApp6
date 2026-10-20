@@ -1,5 +1,6 @@
 package edu.co.icesi.introspringboot.service.impl;
 
+import edu.co.icesi.introspringboot.api.dto.CourseDTO;
 import edu.co.icesi.introspringboot.entity.Course;
 import edu.co.icesi.introspringboot.entity.Professor;
 import edu.co.icesi.introspringboot.repo.CourseRepository;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -30,6 +32,7 @@ public class CourseServiceImpl implements CourseService {
             Professor professor
     ) {
         professorRepository.save(professor);
+        course.setPublicId(UUID.randomUUID().toString());
         courseRepository.save(course);
     }
 
@@ -52,6 +55,7 @@ public class CourseServiceImpl implements CourseService {
         else if(course.getName() == null){
             throw new IllegalStateException("Course name is null");
         }else {
+            course.setPublicId(UUID.randomUUID().toString());
             Course savedCourse = courseRepository.save(course);
             return savedCourse;
         }
@@ -62,6 +66,19 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findAll();
     }
 
+    @Override
+    public List<CourseDTO> getAllRest() {
+        List<Course> courses = courseRepository.findAll();
+        List<CourseDTO> coursesDTO = courses.stream().map(
+                entity -> new CourseDTO(
+                        entity.getPublicId(),
+                        entity.getName(),
+                        entity.getProfessor().getName(),
+                        entity.getCredits()
+                )
+        ).toList();
+        return coursesDTO;
+    }
 
     @Override
     public Course getById(Integer id) {

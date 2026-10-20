@@ -25,14 +25,34 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
     @Order(1)
+    public SecurityFilterChain h2SecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/h2/**")
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**")
+                )
+                .headers(headers -> headers
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin())
+                );
+        return http.build();
+    }
+
+
+    @Bean
+    @Order(2)
     public SecurityFilterChain restSecurityFilterChain(HttpSecurity http) throws Exception {
         http.securityMatcher("/api/**")
                 .authorizeHttpRequests(
                         auth ->
                                 auth
                                         .requestMatchers("/api/v1/health").permitAll()
+                                        .requestMatchers("/api/v1/courses").permitAll()
                                         .anyRequest().authenticated()
                 )
                 .sessionManagement(
@@ -45,7 +65,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    @Order(2)
+    @Order(3)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(
