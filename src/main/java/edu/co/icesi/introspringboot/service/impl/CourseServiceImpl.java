@@ -8,6 +8,7 @@ import edu.co.icesi.introspringboot.repo.EnrollmentRepository;
 import edu.co.icesi.introspringboot.repo.ProfessorRepository;
 import edu.co.icesi.introspringboot.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('DELETE_COURSE')")
     public void deleteCourse(Integer id) {
         courseRepository.deleteById(id);
         //Eliminar los enrollments asociados
@@ -45,6 +47,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CREATE_COURSE')")
     public Course createCourse(Course course) {
         if(courseRepository.existsByName(course.getName())) {
             throw new IllegalArgumentException("Course with name " + course.getName() + " already exists");
@@ -62,11 +65,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_COURSE')")
     public List<Course> getAll() {
         return courseRepository.findAll();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_COURSE')")
     public List<CourseDTO> getAllRest() {
         List<Course> courses = courseRepository.findAll();
         List<CourseDTO> coursesDTO = courses.stream().map(
