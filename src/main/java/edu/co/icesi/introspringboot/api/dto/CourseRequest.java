@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseRequest{
+public class CourseRequest {
     private String name;
     private int credits;
     private String professorPublicId;
