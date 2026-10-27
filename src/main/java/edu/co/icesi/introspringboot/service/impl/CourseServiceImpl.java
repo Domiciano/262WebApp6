@@ -1,6 +1,8 @@
 package edu.co.icesi.introspringboot.service.impl;
 
 import edu.co.icesi.introspringboot.api.dto.CourseDTO;
+import edu.co.icesi.introspringboot.api.dto.CourseRequest;
+import edu.co.icesi.introspringboot.api.mapper.CourseMapper;
 import edu.co.icesi.introspringboot.entity.Course;
 import edu.co.icesi.introspringboot.entity.Professor;
 import edu.co.icesi.introspringboot.repo.CourseRepository;
@@ -25,6 +27,9 @@ public class CourseServiceImpl implements CourseService {
     private ProfessorRepository professorRepository;
     @Autowired
     private EnrollmentRepository enrollmentRepository;
+    @Autowired
+    private CourseMapper courseMapper;
+
 
     @Override
     @Transactional
@@ -78,13 +83,9 @@ public class CourseServiceImpl implements CourseService {
     @PreAuthorize("hasAuthority('READ_COURSE')")
     public List<CourseDTO> getAllRest() {
         List<Course> courses = courseRepository.findAll();
+        //List<CourseDTO> coursesDTO = courses.stream().map(courseMapper::toDTO).toList();
         List<CourseDTO> coursesDTO = courses.stream().map(
-                entity -> new CourseDTO(
-                        entity.getPublicId(),
-                        entity.getName(),
-                        entity.getProfessor().getName(),
-                        entity.getCredits()
-                )
+                entity -> courseMapper.toDTO(entity)
         ).toList();
         return coursesDTO;
     }
@@ -98,6 +99,21 @@ public class CourseServiceImpl implements CourseService {
         }else{
             throw new RuntimeException("Course with id " + id + " does not exist");
         }
+    }
+
+    @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('CREATE_COURSE')")
+    public CourseDTO createRest(CourseRequest dto) {
+        Professor professor = professorRepository
+                .findByPublicId(dto.getProfessorPublicId())
+                .orElseThrow(() -> new IllegalStateException(
+                        "Professor " + dto.getProfessorPublicId() + " does not exist"));
+        Course course = courseMapper.toEntity(dto);
+        course.setProfessor(professor);
+        course.setPublicId(UUID.randomUUID().toString());
+        Course savedCourse = courseRepository.save(course);
+        return courseMapper.toDTO(savedCourse);
     }
 
 }

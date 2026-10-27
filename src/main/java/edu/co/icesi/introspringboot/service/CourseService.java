@@ -1,6 +1,7 @@
 package edu.co.icesi.introspringboot.service;
 
 import edu.co.icesi.introspringboot.api.dto.CourseDTO;
+import edu.co.icesi.introspringboot.api.dto.CourseRequest;
 import edu.co.icesi.introspringboot.entity.Course;
 import edu.co.icesi.introspringboot.entity.Professor;
 
@@ -19,4 +20,6 @@ public interface CourseService {
     Course getById(Integer id);
 
     List<CourseDTO> getAllRest();
+
+    CourseDTO createRest(CourseRequest dto);
 }
