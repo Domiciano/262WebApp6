@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -44,6 +45,9 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public Role save(Role role) {
+        if(role.getPublicId() == null) {
+            role.setPublicId(UUID.randomUUID().toString());
+        }
         return roleRepository.save(role);
     }
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.UUID;
 
@@ -33,6 +34,7 @@ public class CourseServiceIntegrationTest {
     void setup() {
         professor = new Professor();
         professor.setName("Test Professor");
+        professor.setPublicId(UUID.randomUUID().toString());
         professorRepository.save(professor);
 
         course = new Course();
@@ -44,21 +46,27 @@ public class CourseServiceIntegrationTest {
     }
 
     @Test
+    @WithMockUser(authorities = "CREATE_COURSE")
     void createCourse_WhenValid_ReturnsSavedCourse(){
         //Arrange
-        // Se invoca solo
+        Course newCourse = new Course();
+        newCourse.setCredits(3);
+        newCourse.setName("New Test Course");
+        newCourse.setProfessor(professor);
         //Act
-        Course outputCourse = courseService.createCourse(course);
+        Course outputCourse = courseService.createCourse(newCourse);
         int courseSize = courseRepository.findAll().size();
         //Assert
         assertNotNull(outputCourse);
         assertNotNull(outputCourse.getId());
+        assertNotNull(outputCourse.getPublicId());
         assertEquals(3, outputCourse.getCredits());
-        assertEquals(1, courseSize);
+        assertEquals(2, courseSize);
 
     }
 
     @Test
+    @WithMockUser(authorities = "CREATE_COURSE")
     void createCourse_WhenNameIsNull_ThrowsException(){
         //Arrange
 

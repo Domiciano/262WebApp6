@@ -18,6 +18,9 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "public_id", unique = true, nullable = false, updatable = false, length = 36)
+    private String publicId;
+
     private String name;
 
     @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)

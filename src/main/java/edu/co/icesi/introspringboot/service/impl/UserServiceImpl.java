@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,6 +44,9 @@ public class UserServiceImpl implements UserService {
     public User save(User user) {
         String hashedPass = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPass);
+        if(user.getPublicId() == null) {
+            user.setPublicId(UUID.randomUUID().toString());
+        }
         return userRepository.save(user);
     }
 

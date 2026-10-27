@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PermissionServiceImpl implements PermissionService {
@@ -36,6 +37,9 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public Permission save(Permission permission) {
+        if(permission.getPublicId() == null) {
+            permission.setPublicId(UUID.randomUUID().toString());
+        }
         return permissionRepository.save(permission);
     }
 

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -41,6 +42,9 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     @PreAuthorize("hasAnyAuthority('CREATE_STUDENT', 'UPDATE_STUDENT')")
     public Student save(Student student) {
+        if(student.getPublicId() == null) {
+            student.setPublicId(UUID.randomUUID().toString());
+        }
         return studentRepository.save(student);
     }
 

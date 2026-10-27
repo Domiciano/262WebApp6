@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProfessorServiceImpl implements ProfessorService {
@@ -32,6 +33,9 @@ public class ProfessorServiceImpl implements ProfessorService {
     @Override
     @PreAuthorize("hasAnyAuthority('CREATE_PROFESSOR', 'UPDATE_PROFESSOR')")
     public void save(Professor professor) {
+        if(professor.getPublicId() == null) {
+            professor.setPublicId(UUID.randomUUID().toString());
+        }
         professorRepository.save(professor);
     }
 

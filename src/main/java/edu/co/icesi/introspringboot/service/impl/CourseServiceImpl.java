@@ -33,6 +33,9 @@ public class CourseServiceImpl implements CourseService {
             Course course,
             Professor professor
     ) {
+        if(professor.getPublicId() == null) {
+            professor.setPublicId(UUID.randomUUID().toString());
+        }
         professorRepository.save(professor);
         course.setPublicId(UUID.randomUUID().toString());
         courseRepository.save(course);
