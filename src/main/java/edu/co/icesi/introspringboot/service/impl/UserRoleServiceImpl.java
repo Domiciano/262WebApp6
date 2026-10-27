@@ -25,23 +25,27 @@ public class UserRoleServiceImpl implements UserRoleService {
     private RoleRepository roleRepository;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserRole> findAll() {
         return userRoleRepository.findAll();
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Optional<UserRole> findById(UserRoleId id) {
         return userRoleRepository.findById(id);
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public UserRole save(UserRole userRole) {
         return userRoleRepository.save(userRole);
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(UserRoleId id) {
         userRoleRepository.deleteById(id);
     }

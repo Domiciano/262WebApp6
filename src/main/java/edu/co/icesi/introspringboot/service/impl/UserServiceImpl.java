@@ -26,12 +26,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('READ_USER')")
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_USER')")
     public Optional<User> findById(Integer id) {
         return userRepository.findById(id);
     }

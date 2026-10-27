@@ -28,6 +28,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAuthority('CREATE_COURSE') and hasAuthority('CREATE_PROFESSOR')")
     public void createCourseWithProfessor(
             Course course,
             Professor professor
@@ -86,6 +87,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_COURSE')")
     public Course getById(Integer id) {
         Optional<Course> course = courseRepository.findById(id);
         if(course.isPresent()) {

@@ -29,23 +29,27 @@ public class RoleServiceImpl implements RoleService {
     private PermissionRepository permissionRepository;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Role> findAll() {
         return roleRepository.findAll();
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Optional<Role> findById(Integer id) {
         return roleRepository.findById(id);
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public Role save(Role role) {
         return roleRepository.save(role);
     }
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(Integer id) {
         roleRepository.deleteById(id);
         userRoleRepository.deleteByRole_Id(id);
