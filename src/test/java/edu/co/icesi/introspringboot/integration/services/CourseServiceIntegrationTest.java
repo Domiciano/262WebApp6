@@ -1,5 +1,6 @@
 package edu.co.icesi.introspringboot.integration.services;
 
+import edu.co.icesi.introspringboot.api.dto.CourseDTO;
 import edu.co.icesi.introspringboot.entity.Course;
 import edu.co.icesi.introspringboot.entity.Professor;
 import edu.co.icesi.introspringboot.repo.CourseRepository;
@@ -78,6 +79,18 @@ public class CourseServiceIntegrationTest {
             courseService.createCourse(courseWithNameNull);
         } );
 
+    }
+
+    @Test
+    @WithMockUser(authorities = "DELETE_COURSE")
+    void deleteRest_WhenCourseExists_DeletesAndReturnsDTO() {
+        // Act
+        CourseDTO deletedCourse = courseService.deleteRest(course.getPublicId());
+
+        // Assert
+        assertNotNull(deletedCourse);
+        assertEquals(course.getPublicId(), deletedCourse.getPublicId());
+        assertTrue(courseRepository.findByPublicId(course.getPublicId()).isEmpty());
     }
 
     @AfterEach

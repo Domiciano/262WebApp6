@@ -97,6 +97,38 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "DeleteCourse",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/WebApp6/api/v1/courses/59c98002-5ad7-4353-8d72-5b2822efa09f",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "WebApp6",
+            "api",
+            "v1",
+            "courses",
+            "59c98002-5ad7-4353-8d72-5b2822efa09f"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }

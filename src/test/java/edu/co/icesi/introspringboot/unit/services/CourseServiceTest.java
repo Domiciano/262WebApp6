@@ -1,9 +1,12 @@
 package edu.co.icesi.introspringboot.unit.services;
 
 
+import edu.co.icesi.introspringboot.api.dto.CourseDTO;
+import edu.co.icesi.introspringboot.api.mapper.CourseMapper;
 import edu.co.icesi.introspringboot.entity.Course;
 import edu.co.icesi.introspringboot.entity.Professor;
 import edu.co.icesi.introspringboot.repo.CourseRepository;
+import edu.co.icesi.introspringboot.repo.EnrollmentRepository;
 import edu.co.icesi.introspringboot.repo.ProfessorRepository;
 import edu.co.icesi.introspringboot.service.CourseService;
 import edu.co.icesi.introspringboot.service.impl.CourseServiceImpl;
@@ -19,6 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +34,10 @@ public class CourseServiceTest {
     @Mock
     private ProfessorRepository professorRepository;
     // Este objeto lo controla el ingeniero de testing
+    @Mock
+    private EnrollmentRepository enrollmentRepository;
+    @Mock
+    private CourseMapper courseMapper;
 
     @InjectMocks
     private CourseServiceImpl courseService;
@@ -87,5 +95,28 @@ public class CourseServiceTest {
 
     }
 
+    @Test
+    void deleteRest_WhenCourseExists_ReturnsCourseDTO() {
+        // Arrange
+        scenario1();
+        String publicId = "test-public-id";
+        course.setPublicId(publicId);
+
+        CourseDTO expectedDTO = new CourseDTO();
+        expectedDTO.setPublicId(publicId);
+        expectedDTO.setName("Test Course");
+
+        when(courseRepository.findByPublicId(publicId)).thenReturn(Optional.of(course));
+        when(courseMapper.toDTO(course)).thenReturn(expectedDTO);
+
+        // Act
+        CourseDTO result = courseService.deleteRest(publicId);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(publicId, result.getPublicId());
+        verify(enrollmentRepository).deleteByCourse_Id(course.getId());
+        verify(courseRepository).delete(course);
+    }
 
 }

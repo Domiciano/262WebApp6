@@ -22,4 +22,8 @@ public interface CourseService {
     List<CourseDTO> getAllRest();
 
     CourseDTO createRest(CourseRequest dto);
+
+    CourseDTO deleteRest(String publicId);
+
+    void deleteCourseByPublicId(String publicId);
 }

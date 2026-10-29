@@ -116,4 +116,26 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.toDTO(savedCourse);
     }
 
+    @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('DELETE_COURSE')")
+    public CourseDTO deleteRest(String publicId) {
+        Course course = courseRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new RuntimeException("Course with publicId " + publicId + " does not exist"));
+        CourseDTO dto = courseMapper.toDTO(course);
+        enrollmentRepository.deleteByCourse_Id(course.getId());
+        courseRepository.delete(course);
+        return dto;
+    }
+
+    @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('DELETE_COURSE')")
+    public void deleteCourseByPublicId(String publicId) {
+        Course course = courseRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new RuntimeException("Course with publicId " + publicId + " does not exist"));
+        enrollmentRepository.deleteByCourse_Id(course.getId());
+        courseRepository.delete(course);
+    }
+
 }

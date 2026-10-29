@@ -45,9 +45,25 @@ public class CourseRestController {
         throw new RuntimeException("Not implemented");
     }
 
-    //Eliminar un curso
+    //Eliminar un curso por publicId
+    @DeleteMapping("/{publicId}")
+    public ResponseEntity<CourseDTO> deleteCourse(@PathVariable("publicId") String publicId) {
+        CourseDTO output = courseService.deleteRest(publicId);
+        return ResponseEntity.status(200).body(output);
+    }
+
     @DeleteMapping
-    public ResponseEntity<CourseDTO> deleteCourse(@RequestBody CourseDTO dto) {
-        throw new RuntimeException("Not implemented");
+    public ResponseEntity<CourseDTO> deleteCourseByBody(
+            @RequestBody(required = false) CourseDTO dto,
+            @RequestParam(required = false) String publicId) {
+        String targetPublicId = publicId;
+        if (targetPublicId == null && dto != null) {
+            targetPublicId = dto.getPublicId();
+        }
+        if (targetPublicId == null || targetPublicId.isBlank()) {
+            throw new IllegalArgumentException("publicId must be provided");
+        }
+        CourseDTO output = courseService.deleteRest(targetPublicId);
+        return ResponseEntity.status(200).body(output);
     }
 }
