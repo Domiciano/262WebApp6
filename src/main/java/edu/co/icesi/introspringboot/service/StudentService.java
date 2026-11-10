@@ -1,5 +1,7 @@
 package edu.co.icesi.introspringboot.service;
 
+import edu.co.icesi.introspringboot.api.dto.StudentDTO;
+import edu.co.icesi.introspringboot.api.dto.StudentRequestDTO;
 import edu.co.icesi.introspringboot.entity.Enrollment;
 import edu.co.icesi.introspringboot.entity.Student;
 
@@ -26,4 +28,13 @@ public interface StudentService {
 
     void unenrollStudentFromCourse(String studentCode, String courseName);
 
+    List<StudentDTO> getAllRest();
+
+    StudentDTO getByPublicIdRest(String publicId);
+
+    StudentDTO createRest(StudentRequestDTO dto);
+
+    StudentDTO updateRest(String publicId, StudentRequestDTO dto);
+
+    void deleteRest(String publicId);
 }

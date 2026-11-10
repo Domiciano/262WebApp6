@@ -1,7 +1,9 @@
 package edu.co.icesi.introspringboot.service.impl;
 
+import edu.co.icesi.introspringboot.api.exception.NotFoundException;
+import edu.co.icesi.introspringboot.api.exception.ConflictException;
 import edu.co.icesi.introspringboot.api.dto.CourseDTO;
-import edu.co.icesi.introspringboot.api.dto.CourseRequest;
+import edu.co.icesi.introspringboot.api.dto.CourseRequestDTO;
 import edu.co.icesi.introspringboot.api.mapper.CourseMapper;
 import edu.co.icesi.introspringboot.entity.Course;
 import edu.co.icesi.introspringboot.entity.Professor;
@@ -104,11 +106,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     @PreAuthorize("hasAuthority('CREATE_COURSE')")
-    public CourseDTO createRest(CourseRequest dto) {
-        Professor professor = professorRepository
-                .findByPublicId(dto.getProfessorPublicId())
-                .orElseThrow(() -> new IllegalStateException(
-                        "Professor " + dto.getProfessorPublicId() + " does not exist"));
+    public CourseDTO createRest(CourseRequestDTO dto) {
+        if (courseRepository.existsByName(dto.getName())) {
+            throw new ConflictException("Course with name " + dto.getName() + " already exists");
+        }
+        Professor professor = findProfessorOrThrow(dto.getProfessorPublicId());
         Course course = courseMapper.toEntity(dto);
         course.setProfessor(professor);
         course.setPublicId(UUID.randomUUID().toString());
@@ -117,11 +119,51 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('READ_COURSE')")
+    public CourseDTO getByPublicIdRest(String publicId) {
+        return courseMapper.toDTO(findByPublicIdOrThrow(publicId));
+    }
+
+    @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('UPDATE_COURSE')")
+    public CourseDTO updateRest(String publicId, CourseRequestDTO dto) {
+        Course course = findByPublicIdOrThrow(publicId);
+        courseMapper.updateEntity(dto, course);
+        course.setProfessor(findProfessorOrThrow(dto.getProfessorPublicId()));
+        return courseMapper.toDTO(courseRepository.saveAndFlush(course));
+    }
+
+    @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('UPDATE_COURSE')")
+    public CourseDTO patchRest(String publicId, CourseRequestDTO dto) {
+        Course course = findByPublicIdOrThrow(publicId);
+        courseMapper.patchEntity(dto, course);
+        if (dto.getProfessorPublicId() != null) {
+            course.setProfessor(findProfessorOrThrow(dto.getProfessorPublicId()));
+        }
+        return courseMapper.toDTO(courseRepository.saveAndFlush(course));
+    }
+
+    private Course findByPublicIdOrThrow(String publicId) {
+        return courseRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new NotFoundException("Course with publicId " + publicId + " does not exist"));
+    }
+
+    private Professor findProfessorOrThrow(String professorPublicId) {
+        return professorRepository
+                .findByPublicId(professorPublicId)
+                .orElseThrow(() -> new NotFoundException(
+                        "Professor " + professorPublicId + " does not exist"));
+    }
+
+    @Override
     @Transactional
     @PreAuthorize("hasAuthority('DELETE_COURSE')")
     public CourseDTO deleteRest(String publicId) {
         Course course = courseRepository.findByPublicId(publicId)
-                .orElseThrow(() -> new RuntimeException("Course with publicId " + publicId + " does not exist"));
+                .orElseThrow(() -> new NotFoundException("Course with publicId " + publicId + " does not exist"));
         CourseDTO dto = courseMapper.toDTO(course);
         enrollmentRepository.deleteByCourse_Id(course.getId());
         courseRepository.delete(course);
@@ -133,7 +175,7 @@ public class CourseServiceImpl implements CourseService {
     @PreAuthorize("hasAuthority('DELETE_COURSE')")
     public void deleteCourseByPublicId(String publicId) {
         Course course = courseRepository.findByPublicId(publicId)
-                .orElseThrow(() -> new RuntimeException("Course with publicId " + publicId + " does not exist"));
+                .orElseThrow(() -> new NotFoundException("Course with publicId " + publicId + " does not exist"));
         enrollmentRepository.deleteByCourse_Id(course.getId());
         courseRepository.delete(course);
     }

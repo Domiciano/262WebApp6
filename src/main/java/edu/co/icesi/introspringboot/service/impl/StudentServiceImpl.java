@@ -1,5 +1,9 @@
 package edu.co.icesi.introspringboot.service.impl;
 
+import edu.co.icesi.introspringboot.api.exception.NotFoundException;
+import edu.co.icesi.introspringboot.api.dto.StudentDTO;
+import edu.co.icesi.introspringboot.api.dto.StudentRequestDTO;
+import edu.co.icesi.introspringboot.api.mapper.StudentMapper;
 import edu.co.icesi.introspringboot.entity.Course;
 import edu.co.icesi.introspringboot.entity.Enrollment;
 import edu.co.icesi.introspringboot.entity.Student;
@@ -25,6 +29,8 @@ public class StudentServiceImpl implements StudentService {
     private CourseRepository courseRepository;
     @Autowired
     private EnrollmentRepository enrollmentRepository;
+    @Autowired
+    private StudentMapper studentMapper;
 
     @Override
     @PreAuthorize("hasAuthority('READ_STUDENT')")
@@ -99,5 +105,49 @@ public class StudentServiceImpl implements StudentService {
         // TODO: buscar el curso por nombre; si no existe, lanzar RuntimeException.
         // TODO: buscar la inscripción; si no existe, lanzar IllegalStateException.
         // TODO: eliminarla.
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('READ_STUDENT')")
+    public List<StudentDTO> getAllRest() {
+        return studentRepository.findAll().stream().map(studentMapper::toDTO).toList();
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('READ_STUDENT')")
+    public StudentDTO getByPublicIdRest(String publicId) {
+        return studentMapper.toDTO(findByPublicIdOrThrow(publicId));
+    }
+
+    @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('CREATE_STUDENT')")
+    public StudentDTO createRest(StudentRequestDTO dto) {
+        Student student = studentMapper.toEntity(dto);
+        student.setPublicId(UUID.randomUUID().toString());
+        return studentMapper.toDTO(studentRepository.saveAndFlush(student));
+    }
+
+    @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('UPDATE_STUDENT')")
+    public StudentDTO updateRest(String publicId, StudentRequestDTO dto) {
+        Student student = findByPublicIdOrThrow(publicId);
+        studentMapper.updateEntity(dto, student);
+        return studentMapper.toDTO(studentRepository.saveAndFlush(student));
+    }
+
+    @Override
+    @Transactional
+    @PreAuthorize("hasAuthority('DELETE_STUDENT')")
+    public void deleteRest(String publicId) {
+        Student student = findByPublicIdOrThrow(publicId);
+        enrollmentRepository.deleteByStudent_Id(student.getId());
+        studentRepository.delete(student);
+    }
+
+    private Student findByPublicIdOrThrow(String publicId) {
+        return studentRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new NotFoundException("Student with publicId " + publicId + " does not exist"));
     }
 }

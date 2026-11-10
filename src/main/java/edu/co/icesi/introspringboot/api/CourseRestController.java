@@ -1,16 +1,14 @@
 package edu.co.icesi.introspringboot.api;
 
+import jakarta.validation.Valid;
 
 import edu.co.icesi.introspringboot.api.dto.CourseDTO;
-import edu.co.icesi.introspringboot.api.dto.CourseRequest;
-import edu.co.icesi.introspringboot.entity.Course;
-import edu.co.icesi.introspringboot.repo.CourseRepository;
+import edu.co.icesi.introspringboot.api.dto.CourseRequestDTO;
 import edu.co.icesi.introspringboot.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -26,44 +24,39 @@ public class CourseRestController {
         return ResponseEntity.status(200).body(body);
     }
 
+    @GetMapping("/{publicId}")
+    public ResponseEntity<CourseDTO> getCourse(@PathVariable("publicId") String publicId) {
+        CourseDTO output = courseService.getByPublicIdRest(publicId);
+        return ResponseEntity.status(200).body(output);
+    }
+
     //Crear curso
     @PostMapping
-    public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseRequest dto) {
+    public ResponseEntity<CourseDTO> createCourse(@Valid @RequestBody CourseRequestDTO dto) {
         CourseDTO output = courseService.createRest(dto);
         return ResponseEntity.status(201).body(output);
     }
 
-    //Reemplazar curso o crear
-    @PutMapping
-    public ResponseEntity<CourseDTO> updateCourse(@RequestBody CourseDTO dto) {
-        throw new RuntimeException("Not implemented");
+    //Reemplazar curso
+    @PutMapping("/{publicId}")
+    public ResponseEntity<CourseDTO> updateCourse(@PathVariable("publicId") String publicId,
+                                                  @Valid @RequestBody CourseRequestDTO dto) {
+        CourseDTO output = courseService.updateRest(publicId, dto);
+        return ResponseEntity.status(200).body(output);
     }
 
-    //Editar un campo
-    @PatchMapping
-    public ResponseEntity<CourseDTO> patchCourse(@RequestBody CourseDTO dto) {
-        throw new RuntimeException("Not implemented");
+    //Editar solo los campos enviados
+    @PatchMapping("/{publicId}")
+    public ResponseEntity<CourseDTO> patchCourse(@PathVariable("publicId") String publicId,
+                                                 @RequestBody CourseRequestDTO dto) {
+        CourseDTO output = courseService.patchRest(publicId, dto);
+        return ResponseEntity.status(200).body(output);
     }
 
     //Eliminar un curso por publicId
     @DeleteMapping("/{publicId}")
-    public ResponseEntity<CourseDTO> deleteCourse(@PathVariable("publicId") String publicId) {
-        CourseDTO output = courseService.deleteRest(publicId);
-        return ResponseEntity.status(200).body(output);
-    }
-
-    @DeleteMapping
-    public ResponseEntity<CourseDTO> deleteCourseByBody(
-            @RequestBody(required = false) CourseDTO dto,
-            @RequestParam(required = false) String publicId) {
-        String targetPublicId = publicId;
-        if (targetPublicId == null && dto != null) {
-            targetPublicId = dto.getPublicId();
-        }
-        if (targetPublicId == null || targetPublicId.isBlank()) {
-            throw new IllegalArgumentException("publicId must be provided");
-        }
-        CourseDTO output = courseService.deleteRest(targetPublicId);
-        return ResponseEntity.status(200).body(output);
+    public ResponseEntity<Void> deleteCourse(@PathVariable("publicId") String publicId) {
+        courseService.deleteRest(publicId);
+        return ResponseEntity.status(204).build();
     }
 }

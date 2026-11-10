@@ -1,0 +1,13 @@
+package edu.co.icesi.introspringboot.api.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProfessorDTO {
+    private String publicId;
+    private String name;
+}
