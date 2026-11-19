@@ -2,6 +2,7 @@ package edu.co.icesi.introspringboot.security.filter;
 
 import edu.co.icesi.introspringboot.security.JwtService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +34,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             //System.out.println("Authorization: " + authHeader);
             String token = authHeader.substring(7);
             System.out.println("Token: " + token);
-            Claims claims =  jwtService.extractAllClaims(token);
+            Claims claims;
+            try {
+                claims = jwtService.extractAllClaims(token);
+            } catch (JwtException | IllegalArgumentException e) {
+                //Token alterado o vencido: 401 en vez de seguir la cadena
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"Unauthorized\"}");
+                return;
+            }
             String username = claims.getSubject();
             List<?> names = claims.get("authorities", List.class);
             List<SimpleGrantedAuthority> authorities = names.stream()
